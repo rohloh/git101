@@ -38,3 +38,12 @@ b <- a + 2
 
 print(x+b)
 ```
+```{r cars}
+
+all_C_temps <- seq(-40, 40, 1)
+all_F_temps <- all_C_temps * 9/5 + 32
+
+
+plot(x=all_C_temps, y=all_F_temps, xlab="xlab", ylab="ylab", main="title")
+
+```
