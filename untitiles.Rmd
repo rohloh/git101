@@ -47,3 +47,13 @@ all_F_temps <- all_C_temps * 9/5 + 32
 plot(x=all_C_temps, y=all_F_temps, xlab="xlab", ylab="ylab", main="title")
 
 ```
+
+```{r cars}
+a = 3
+y = 4
+x <- y + 2
+b <- a + 2
+
+
+print(x+b)
+```
