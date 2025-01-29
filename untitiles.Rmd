@@ -164,7 +164,7 @@ Plot the minimum and maximum temperatures for each day of the year
 
 # For example, I would do something like this:
 # plot(DATA_FRAME$X_COLUMN, DATA_FRAME$Y_COLUMN, type="l", col="red",
-#      xlab = "date", ylab="temperature")
+#      xlab = "date", ylab="temperature")ee
 
 # lines(DATA_FRAME$X_COLUMN, DATA_FRAME$Y_COLUMN, type="l", col="blue")
 
