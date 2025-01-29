@@ -68,3 +68,13 @@ b <- a + 4
 
 print(x+b)
 ```
+
+```{r today}
+a = 2
+y = 6
+x <- y + 5
+b <- a + 4
+
+
+print(x+b)
+```
