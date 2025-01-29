@@ -4,87 +4,181 @@ output: html_document
 date: "2025-01-27"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-print(plot)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-```{r cars}
-a = 3
-y = 4
-x <- y + 2
-b <- a + 2
-
-
-print(x+b)
-```
-```{r cars}
-
-all_C_temps <- seq(-40, 40, 1)
-all_F_temps <- all_C_temps * 9/5 + 32
-
-
-plot(x=all_C_temps, y=all_F_temps, xlab="xlab", ylab="ylab", main="title")
+```{r Get Station Name}
+# This is an example of creating a variable that can be used in-line to 
+# populate our document. We did this cell together in class. Notice we are
+# taking the first value of the 'name' column to find the name of the weather
+# station.
+weather <- read.csv("climate_2000.csv")
+station_name <- weather$name[1]
 
 ```
 
+In this document, we will analyze the weather data collected at the
+`r station_name` weather station. We will use a series of questions to
+perform a descriptive analysis on the dataset.
 
-```{r cars}
-a = 3
-y = 4
-x <- y + 2
-b <- a + 2
+## Question 1 (2 points)
+
+How many days of data were collected at the `r station_name` weather
+station?
+
+```{r number of days of data}
+# Place your code here. I recommend that you use the unique() function to extract the 
+# total number of dates in the data frame, and then use the length() function to 
+# report the number of days. However, because this data is clean, you could just
+# query the number of rows. Assign the result to the variable n_days.
+
+# For example, I would do something like this:
+# UNIQUE_DAYS <- unique(DATA_FRAME$DATE)
+# N_DAYS <- length(UNIQUE_DAYS)
+
+# Your code here ------------------------------------------------------
+unique_days <- unique(weather$date)
+n_days <- length(unique_days)
+print(n_days)
 
 
-print(x+b)
+# ---------------------------------------------------------------------
 ```
 
-```{r cars}
-a = 2
-y = 6
-x <- y + 5
-b <- a + 4
+There were `r n_days` days of data collected at the `r station_name`
+weather station.
+
+## Question 2 (2 points)
+
+What year was the data collected?
+
+```{r year of data collection}
+# Place your code here. Use the format() function to extract the year from the
+# first date in the data frame. You will need to use the format string "%Y" as 
+# the second argument. Assign the result to the variable data_year.
+
+# For example, I would do something like this:
+# FIRST_DATE <- DATA_FRAME$DATE[1]
+# DATA_YEAR <- format(FIRST_DATE, "%Y")
+
+# Your code here ------------------------------------------------------
+
+first_date <- weather$date[1]
+data_year <- format(first_date, "%Y")
+print(data_year)
 
 
-print(x+b)
+
+# ---------------------------------------------------------------------
 ```
 
-```{r today}
-a = 2
-y = 6
-x <- y + 5
-b <- a + 4
+The data was collected in `r data_year`.
+
+## Question 3 (2 points)
+
+How many days of rain and snow were there during the year `r data_year`?
+Produce two values: one for rain, and one for snow.
+
+```{r number of days of precipitation}
+# In the data, notice that there are six columns that indicate whether or not
+# there was precipitation on a given day: total_rain_mm, total_rain_flag, 
+# total_snow_cm, total_snow_flag, total_precip_mm, and total_precip_flag. The 
+# numeric columns contain a measurement of the amount of precipitation. The
+# "flag" columns, on the other hand, are True if there is an amount of 
+# precipitation that falls on that day, but is less than the minimum measurement.
+
+# Leveraging what we know about logical values in R, this gives us an easy way 
+# to compute the totals. We can make a logical statement that returns true if 
+# the precipitation is greater than zero, or the total flag is true. 
+
+# Use this method to get the total_days_of_snow, total_days_of_rain, and total_days_of_precipitation.
 
 
-print(x+b)
+# For example, I would do something like this:
+# TOTAL_DAYS_OF_SNOW <- sum(DATA_FRAME$NUMERIC_COLUMN > 0 | DATA_FRAME$BOOLEAN_COLUMN)
+# And I would do the same for total days of rain.
+
+# Your code here ------------------------------------------------------
+
+total_days_of_snow <- sum(weather$total_snow_cm > 0 | weather$total_snow_flag)
+print(total_days_of_snow)
+
+total_days_of_rain <- sum(weather$total_rain_mm > 0 | weather$total_rain_flag)
+print(total_days_of_rain)
+
+total_days_of_percipitation <- sum(total_days_of_snow, total_days_of_rain)
+print(total_days_of_percipitation)
+
+# ---------------------------------------------------------------------
 ```
 
-```{r today}
-a = 2
-y = `5
-x <- y + 5
-b <- a + 4
+In `r data_year`, there were `r total_days_of_rain` days of rain, and
+`r total_days_of_snow` days of snow.
+
+## Question 4 (2 points)
+
+What were the hottest and coldest temperatures, and when did they occur?
+
+```{r hottest and coldest temperatures}
+# Place your code here. Use the max() and min() functions to get the hottest
+# and coldest temperatures, and assign them to the variables hottest_temp and
+# coldest_temp. Then use the which() function to get the index of the hottest
+# and coldest temperatures, and use that index to get the date of the hottest
+# and coldest temperatures. Assign the dates to the variables hottest_temp_date
+# and coldest_temp_date. 
+
+# For example, I would do something like this:
+# HOTTEST_TEMP <- max(DATA_FRAME$TEMPERATURE_COLUMN)
+# HOTTEST_TEMP_DATE <- DATA_FRAME$DATE_COLUMN[which(DATA_FRAME$TEMPERATURE_COLUMN == HOTTEST_TEMP)]
+# And I would do the same for the coldest temperature.
+
+# Your code here ------------------------------------------------------
+hottest_temp <- max(weather$max_temp_c)
+print(hottest_temp)
+
+coldest_temp <- min(weather$min_temp_c)
+print(coldest_temp)
+
+hottest_temp_date <- weather$date[which(weather$max_temp_c == hottest_temp)]
+print(hottest_temp_date)
+
+coldest_temp_date <- weather$date[which(weather$min_temp_c == coldest_temp)]
+print(coldest_temp_date)
 
 
-print(x+b)
+# ---------------------------------------------------------------------
+```
+
+The hottest temperature was `r hottest_temp` degrees, and it occurred on
+`r hottest_temp_date`. The coldest temperature was `r coldest_temp`
+degrees, and it occurred on `r coldest_temp_date`.
+
+## Question 5 (2 points)
+
+Plot the minimum and maximum temperatures for each day of the year
+`r data_year`.
+
+```{r min_max_temperature_graph, include=TRUE, echo=FALSE, fig.cap="Maximum and minimum temperatures."}
+# Repeat the exercise we did in class. 
+
+# Use the plot() function to create a line plot with the minimum and maximum 
+#temperatures on the y-axis and the date on the x-axis. Maximum temperatures 
+# should be red, minimums should be blue. Add a black line to indicate 0°C.
+
+# For example, I would do something like this:
+# plot(DATA_FRAME$X_COLUMN, DATA_FRAME$Y_COLUMN, type="l", col="red",
+#      xlab = "date", ylab="temperature")
+
+# lines(DATA_FRAME$X_COLUMN, DATA_FRAME$Y_COLUMN, type="l", col="blue")
+
+# abline(h=VALUE, col="black")
+
+
+# Your code here ------------------------------------------------------
+
+plot(weather$date, weather$max_temp_c, type="l", col="red",
+     xlab = "date", ylab="temperature")
+lines(weather$date, weather$min_temp_c, type="l", col= "blue")
+
+abline(h=0, col="black")
+
+
+# ---------------------------------------------------------------------
 ```
